@@ -12,15 +12,30 @@ I doubt, but it enumerates `14 online services` successfully and didn't implemen
 - **Pro:** single-file, Python3 based, low-dependency, no API keys, I will enhance this project ;-)
 - **Contra:** single-threaded, probably missing something, no fancy interface stuff, no DNS bruteforce (future release)
 
-**[3] I wanna use it, how?**
+**[3] How to install?**
+
+**Method 1:** This script requires only "requests" and "beautifulsoup4", if don't have them already:
+
 
 ```
 pip install beautifulsoup4
 pip install requests
+```
+
+**Method 2:** It's also possible to install all dependencies using requirements.txt:
+
+```
+pip install -r requirements.txt
+```
+
+
+**[4] I wanna use it, how?**
+
+```
 python3 acamar.py [domain]
 ```
 
-**[4] Example**
+**[5] Example**
 
 ```
 python3 acamar.py twitter.com
@@ -36,4 +51,4 @@ spiderduck03.dmz1.twitter.com
 
 [!] Counting 753 unique subdomains
 ```
-The result will be saved in the same directory under a filename called `[domain].txt`
+The result will be saved in the same directory under a filename called `[domain].txt` within the results folder.
