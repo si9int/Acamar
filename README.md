@@ -15,7 +15,8 @@ I doubt, but it enumerates `14 online services` successfully and didn't implemen
 **[3] I wanna use it, how?**
 
 ```
-pip install beautifulsoup4 requests
+pip install beautifulsoup4
+pip install requests
 python3 acamar.py [domain]
 ```
 
