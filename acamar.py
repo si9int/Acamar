@@ -313,5 +313,5 @@ finally:
 
 print('[!] Finished, printing result:')
 
-os.system('cat ' + domain + '.txt')
+os.system('cat results/' + domain + '.txt')
 print('[!] Counting ' + str(len(result)) + ' unique subdomains')
