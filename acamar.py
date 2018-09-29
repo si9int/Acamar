@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import sys, requests, json, os
+import sys, requests, json, os, threading
 from bs4 import BeautifulSoup as bs
 
 
@@ -306,8 +306,17 @@ functions = [
     enumPtrarchive
 ]
 
-for f in functions:
-    f()
+threads = []
+
+if __name__ == '__main__':
+
+    for f in functions:
+        t = threading.Thread(target=f)
+        t.start()
+        threads.append(t)
+
+    for t in threads:
+        t.join()
 
 try:
     for i in result:
