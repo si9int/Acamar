@@ -201,6 +201,10 @@ def enumThreatcrowd():
 
     print('\t - proceeding JSON output')
 
+    if "subdomains" not in j:
+        print('\t - JSON output seems to be empty!')
+        return
+
     for e in j['subdomains']:
         enterRes(e)
 
