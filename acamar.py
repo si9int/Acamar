@@ -112,20 +112,24 @@ def enumCrt():
 
     r = requests.get('https://crt.sh/?q=%25' + domain).text
     s = bs(r, 'html.parser')
-    e = s.findAll('table')[1].findAll('tr')
 
-    print('\t - proceeding HTML for filtering out the result')
+    try:
+        e = s.findAll('table')[1].findAll('tr')
+    except IndexError:
+        print('\t - crt.sh did not respond, continueing')
+    else:
+        print('\t - proceeding HTML for filtering out the result')
 
-    for i in e:
-        e = i.findAll('td')
+        for i in e:
+            e = i.findAll('td')
 
-        try:
-            e = e[4].text
+            try:
+                e = e[4].text
 
-            if e.endswith('.' + domain) and not e.startswith('*'):
-                enterRes(e)
-        except IndexError:
-            pass
+                if e.endswith('.' + domain) and not e.startswith('*'):
+                    enterRes(e)
+            except IndexError:
+                pass
 
 
 def enumSecuritytrails():
@@ -285,7 +289,7 @@ except IndexError:
     sys.exit()
 
 result = []
-output = open("results/" + domain + '.txt', 'w')
+output = open('results/' + domain + '.txt', 'w')
 
 print('[~] Acamar.py v.0.1 written by @SI9INT | Target set to: ' + domain)
 
