@@ -324,7 +324,7 @@ if __name__ == '__main__':
 
 try:
     for i in result:
-        output.write(i + '\n')
+        output.write(i.encode('utf-8') + '\n')
 finally:
     output.close()
 
