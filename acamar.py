@@ -34,7 +34,7 @@ def enumPtrarchive():
 
     print('\t - hooking up page via fake-cookie "pa_id: 1337"')
 
-    r = c.get('http://www.ptrarchive.com/tools/search3.htm?label=' + domain + '&date=ALL', headers=h, cookies=t).text
+    r = c.get('http://www.ptrarchive.com/tools/search4.htm?label=' + domain + '&date=ALL', headers=h, cookies=t).text
     s = bs(r, 'html.parser')
     e = s.find('pre').text.split('\n')
 
