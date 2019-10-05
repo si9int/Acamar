@@ -2,41 +2,11 @@
 import sys, requests, json, os, threading
 from bs4 import BeautifulSoup as bs
 
-
 def enterRes(e):
     e = e.split('/', 1)[0]
 
     if e not in result:
         result.append(e)
-
-
-def enumYahoo():
-    print('[!] Enumerating yahoo.com')
-    additives = ''
-    pagenum = 1
-
-    for m in range(0, 3):
-        for p in range(0, 5):
-            r = requests.get(
-                'https://search.yahoo.com/search?p=site%3A' + domain + additives + '&pz=10&fr=yfp-t&fr2=sb-top&bct=0&fp=1&b=1').text
-            s = bs(r, 'html.parser')
-            e = s.findAll('span', class_=' fz-ms fw-m fc-12th wr-bw lh-17')
-
-            print('\t - proceeding page: ' + str(pagenum))
-
-            for i in e:
-                e = i.text.split('/')[0]
-                enterRes(e)
-
-                if not e is domain:
-                    additives = additives + '+-site%3A' + e
-
-            pagenum = pagenum + 1
-
-        print('\t - reloading page (due custom query-selectors)')
-        pagenum = 1
-        additives = ''
-
 
 def enumHackertarget():
     print('[!] Enumerating hackertarget.com')
@@ -223,7 +193,8 @@ def enumFindsubdomains():
     print('\t - proceeding HTML for filtering out the result')
 
     for i in e:
-        enterRes(i['title'])
+        if i.get('title'):
+            enterRes(i.get('title'))
 
 
 def enumDNSDumpster():
@@ -245,43 +216,6 @@ def enumDNSDumpster():
     for i in t:
         t = i.text.split()[0]
         enterRes(t)
-
-
-def enumBing():
-    print('[!] Enumerating bing.com')
-    count = 1
-
-    for p in range(1, 201, 10):
-        q = 'https://www.bing.com/search?q=site%3a' + domain + '&qs=n&sp=-1&pq=site%3a*.' + domain + '&sc=0-15&first=' + str(
-            p)
-        r = requests.get(q).text
-        s = bs(r, 'html.parser')
-        e = s.findAll('cite')
-
-        print('\t - proceeding page: ' + str(count))
-
-        for i in e:
-            i = i.text.replace('https://', '')
-            enterRes(i)
-
-        count = count + 1
-
-
-def enumAsk():
-    print('[!] Enumerating ask.com')
-
-    for p in range(1, 11):
-        q = 'https://uk.ask.com/web?o=0&l=dir&qo=pagination&q=site%3A*.' + domain + '&qsrc=998&page=' + str(p)
-        r = requests.get(q).text
-        s = bs(r, 'html.parser')
-        e = s.findAll('p', class_='PartialSearchResults-item-url')
-
-        print('\t - proceeding page: ' + str(p))
-
-        for i in e:
-            enterRes(i.text)
-
-
 try:
     domain = sys.argv[1]
 except IndexError:
@@ -294,9 +228,6 @@ output = open('results/' + domain + '.txt', 'w')
 print('[~] Acamar.py v.0.1 written by @SI9INT | Target set to: ' + domain)
 
 functions = [
-    enumYahoo,
-    enumAsk,
-    enumBing,
     enumDNSDumpster,
     enumFindsubdomains,
     enumThreatcrowd,
@@ -322,9 +253,11 @@ if __name__ == '__main__':
     for t in threads:
         t.join()
 
+filtered = list(filter(None, result))
+
 try:
-    for i in result:
-        output.write(i.encode('utf-8') + '\n')
+    for i in filtered:
+        output.write(i + '\n')
 finally:
     output.close()
 
